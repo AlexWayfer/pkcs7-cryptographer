@@ -260,6 +260,11 @@ RSpec.describe PKCS7::Cryptographer do
         it "is pretty long" do
           expect(signed_data.lines.size).to be > 30
         end
+
+        it "has certificates" do
+          pkcs7 = OpenSSL::PKCS7.new(signed_data)
+          expect(pkcs7.certificates).to be_any
+        end
       end
     end
 
@@ -283,6 +288,11 @@ RSpec.describe PKCS7::Cryptographer do
 
         it "is pretty short" do
           expect(signed_data.lines.size).to be < 30
+        end
+
+        it "has no certificates" do
+          pkcs7 = OpenSSL::PKCS7.new(signed_data)
+          expect(pkcs7.certificates).to be_nil
         end
       end
     end
